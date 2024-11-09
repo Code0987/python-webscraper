@@ -124,3 +124,19 @@ scrapper_consumer  | Found product with title: 3A MEDES Bleaching And Night ...
 scrapper_consumer  | Found product with title: 3m Espe Sof-Lex Spiral Wheels...
 scrapper_consumer  | [Notification] Scraped 54 products. Updated 33 products.
 ```
+
+### Output of `data/products.json`
+```json
+[
+    {
+        "title": "3M ESPE Restorative Introduct...",
+        "price": 4395.0,
+        "image_path": "https%3A%2F%2Fdentalstall.com%2Fwp-content%2Fuploads%2F2023%2F01%2F03-44-700x700-1-300x300.jpg"
+    },
+    {
+        "title": "3M Espe Retraction Capsule...",
+        "price": 5395.0,
+        "image_path": "https%3A%2F%2Fdentalstall.com%2Fwp-content%2Fuploads%2F2021%2F12%2F3M-Espe-Retraction-Capsule.-3-300x300.jpg"
+    },
+...
+```
