@@ -15,6 +15,12 @@ SCRAPE_URL_FORMAT = "https://dentalstall.com/shop/page/{page}/"
 
 
 class DentalStallProductsScraper(ProductsScrapper):
+    '''
+    This class is a subclass of the ProductsScrapper class and is responsible for scraping products from the DentalStall website product pages defined by `https://dentalstall.com/shop/page/{page}/`.
+    It uses the ProductsScrapper class to scrape the products and then processes the scraped data to extract the necessary information.
+    It also caches the scraped data in Redis to avoid scraping the same products multiple times.
+    '''
+
     def __init__(
         self,
         page_limit: int = 5,
@@ -52,6 +58,16 @@ class DentalStallProductsScraper(ProductsScrapper):
         return key
 
     def parse_page(self, page_html_content: str) -> list["Product"]:
+        '''
+        This function parses the HTML content of pages (with url as `SCRAPE_URL_FORMAT`) and extracts the products from it.
+        It returns a list of `Product` objects representing the products found on the page.
+        It also caches the products in Redis, to avoid scraping the same products multiple times.
+
+        Input:
+            page_html_content: The HTML content of a single page.
+        Output:
+            A list of Product objects representing the products found on the page.
+        '''
         soup = BeautifulSoup(page_html_content, "html.parser")
         products = []
         for element in soup.select("#mf-shop-content .products .product-inner"):
@@ -92,6 +108,14 @@ class DentalStallProductsScraper(ProductsScrapper):
         return products
 
     def scrape(self) -> list["Product"]:
+        '''
+        This function scrapes all pages (upto `page_limit`) and returns a list of `Product` objects representing the products found.
+
+        Input:
+            None
+        Output:
+            A list of Product objects representing the products found.
+        '''
         products = []
         with httpx.Client(proxies=self.proxies, follow_redirects=True) as client:
             for page in range(1, self.page_limit + 1):

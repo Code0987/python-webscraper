@@ -6,6 +6,11 @@ from . import Storage
 
 
 class FilesStorage(Storage):
+    '''
+    This class is used to store data in files, in the form of binary data.
+    It provides methods to put, get, delete, and clear data from the files.
+    '''
+
     def __init__(self, path: str):
         self.path = path
         if not os.path.exists(self.path):

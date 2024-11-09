@@ -6,6 +6,11 @@ from . import Storage
 
 
 class CacheStorage(Storage):
+    '''
+    This class is used to store data in Redis, in the form of JSON strings.
+    It provides methods to put, get, delete, and clear data from Redis.
+    '''
+
     def __init__(self):
         self.redis_client = from_url(settings.REDIS_URL)
 

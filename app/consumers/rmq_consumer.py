@@ -3,24 +3,24 @@ from config import settings
 
 
 class RMQConsumer:
-    def __init__(self, queue_name):
+    def __init__(self, queue_name: str) -> None:
         self.connection = None
         self.channel = None
         self.queue_name = queue_name
 
-    def __enter__(self):
+    def __enter__(self) -> "RMQConsumer":
         self.connection = pika.BlockingConnection(pika.URLParameters(settings.AMQP_URL))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.queue_name, durable=True)
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         if self.channel and self.channel.is_open:
             self.channel.close()
         if self.connection and self.connection.is_open:
             self.connection.close()
 
-    def consume(self, callback):
+    def consume(self, callback: callable) -> None:
         print(
             f"Consuming messages from '{self.queue_name}' queue. To exit press CTRL+C."
         )

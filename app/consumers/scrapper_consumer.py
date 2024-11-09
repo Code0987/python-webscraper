@@ -13,7 +13,19 @@ from ..db import products_db
 notifier = PrintNotifier()
 
 
-def callback(channel, method, properties, body):
+def callback(channel, method, properties, body) -> None:
+    '''
+    This function is called by the RMQConsumer when a message is received from the scrapper queue.
+    It processes the scrape request and updates the products in the database if the price has changed or if the product is new.
+
+    Input:
+        channel: The channel object representing the channel the message was received on.
+        method: The method object containing the delivery tag and redelivered flag.
+        properties: The properties object containing the message properties.
+        body: The body of the message.
+    Output:
+        None
+    '''
     scrape_request: ScrapeRequest = ScrapeRequest(**json.loads(body))
     print(f"Received scrape request: {scrape_request}")
 
@@ -24,11 +36,10 @@ def callback(channel, method, properties, body):
             proxy_url=scrape_request.proxy_url,
         )
         products = scraper.scrape()
-
         n_products_scraped = len(products)
-        n_products_updated = 0
 
         # Update products in database if price has changed
+        n_products_updated = 0
         for product in products:
             existing_product = products_db.get(
                 key_name="title", key_value=product.title

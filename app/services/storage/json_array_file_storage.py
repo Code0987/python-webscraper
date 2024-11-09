@@ -6,6 +6,11 @@ from . import Storage
 
 
 class JsonArrayFileStorage(Storage):
+    '''
+    This class is used to store data in a JSON file, in the form of a list of dictionaries.
+    It provides methods to put, get, delete, and clear data from the JSON file.
+    '''
+
     def __init__(self, filename: str):
         self.filename = filename
         if not os.path.exists(self.filename):
