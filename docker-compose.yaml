@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+
+  rabbitmq:
+    image: rabbitmq:3.8-rc-management
+    container_name: rabbitmq
+    ports:
+        - '5672:5672'
+        - '15672:15672'
+    volumes:
+      - rabbitmq_data:/usr/share/rabbitmq/data
+
+  api:
+    build: .
+    container_name: api
+    depends_on:
+        - rabbitmq
+        - redis
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/app:rw
+      - ./data:/data:rw
+
+  scrapper_consumer:
+    build: .
+    container_name: scrapper_consumer
+    command: >
+      /bin/sh -c 'python3 -m app.consumers.scrapper_consumer'
+    depends_on:
+        - rabbitmq
+        - redis
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app:rw
+      - ./data:/data:rw
+
+volumes:
+    rabbitmq_data:
+      driver: local

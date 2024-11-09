@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+httpx
+pydantic
+pydantic-settings
+beautifulsoup4
+pika
+redis
