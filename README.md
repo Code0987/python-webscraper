@@ -1,6 +1,5 @@
 # Python Web Scrapper
-https://goatlys.notion.site/BE-engineer-testing-assigment-f1890cf18af343f7b737ee95575f98dd
-
+A simple async python based web scraper POC
 
 ## Architecture
 
